@@ -31,6 +31,12 @@
                     Источники новостей
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link @if(request()->routeIs('admin.scources.*')) active @endif" href="{{ route('admin.parser') }}">
+                    <span data-feather="scissors"></span>
+                    Парсер новостей
+                </a>
+            </li>
 
         </ul>
 

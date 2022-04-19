@@ -6,7 +6,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Вход') }}</div>
-
+                
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
@@ -56,12 +56,14 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Вход') }}
                                 </button>
-
+                                
                                 @if (Route::has('password.request'))
                                     <a class="btn btn-link" href="{{ route('password.request') }}">
                                         {{ __('Забыли пароль?') }}
                                     </a>
                                 @endif
+                                <a href="{{ route('auth.redirect', ['network' => 'vkontakte']) }}" class="btn btn-primary">Вход через VK</a>
+                                <a href="{{ route('auth.redirect', ['network' => 'github']) }}" class="btn btn-secondary">Вход через GitHub</a>
                             </div>
                         </div>
                     </form>

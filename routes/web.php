@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\ScourceController as AdminScourceController;
 use App\Http\Controllers\Account\IndexController as AccountController;
+use App\Http\Controllers\Auth\SocialController;
+use App\Http\Controllers\Admin\ParserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +64,10 @@ Route::group(['middleware' => 'auth'], function() {
 	Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin.check'], function() {
 		Route::get('/', AdminController::class)
 			->name('index');
+
+		Route::get('parser', ParserController::class)
+			->name('parser');
+
 		Route::resource('categories', AdminCategoryController::class);
 		Route::resource('news', AdminNewsController::class);
 		Route::resource('users', AdminUserController::class);
@@ -71,6 +77,16 @@ Route::group(['middleware' => 'auth'], function() {
 
 
 Auth::routes();
+
+// socials routes
+Route::group(['middleware' => 'guest'], function() {
+	Route::get('/auth/{network}/redirect', [SocialController::class, 'index'])
+		->where('network', '\w+')
+		->name('auth.redirect');
+	Route::get('/auth/{network}/callback', [SocialController::class, 'callback'])
+		->where('network', '\w+')
+		->name('auth.callback');
+});
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

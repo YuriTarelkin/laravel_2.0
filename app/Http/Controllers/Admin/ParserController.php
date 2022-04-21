@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Admin;
 use App\Contracts\Parser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Jobs\NewsParser;
 
 class ParserController extends Controller
 {
@@ -18,11 +19,27 @@ class ParserController extends Controller
      */
     public function __invoke(Request $request, Parser $parser)
     {
-		$data = $parser->setUrl('https://news.yandex.ru/music.rss')
-			      ->getNews();
-    
-    //dd($data);
-    $parser->saveData($data);
+      $urls = [
+        'https://news.yandex.ru/gadgets.rss',
+        'https://news.yandex.ru/index.rss',
+        'https://news.yandex.ru/martial_arts.rss',
+        'https://news.yandex.ru/communal.rss',
+        'https://news.yandex.ru/health.rss',
+        'https://news.yandex.ru/games.rss',
+        'https://news.yandex.ru/internet.rss',
+        'https://news.yandex.ru/cyber_sport.rss',
+        'https://news.yandex.ru/movies.rss',
+        'https://news.yandex.ru/cosmos.rss',
+        'https://news.yandex.ru/culture.rss',
+        'https://news.yandex.ru/championsleague.rss',
+        'https://news.yandex.ru/music.rss',
+      ];
+  
+      foreach($urls as $url) {
+        dispatch(new NewsParser($url));
+      }
+  
+      return response("Парсинг стартовал");
     }
 
 }

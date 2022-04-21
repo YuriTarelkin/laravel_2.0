@@ -15,5 +15,5 @@ interface Parser
 	/**
 	 * @return array
 	 */
-	public function getNews(): array;
+	public function saveNews(): void;
 } 

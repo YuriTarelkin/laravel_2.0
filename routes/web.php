@@ -46,6 +46,10 @@ Route::get('/news/{id}', [NewsController::class, 'show'])
 	->where('id', '\d+')
 	->name('news.show');
 
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
+		\UniSharp\LaravelFilemanager\Lfm::routes();
+	});
+
 Route::group(['middleware' => 'auth'], function() {
 
 	Route::group(['prefix' => 'account', 'as' => 'account.'], function() {
@@ -61,7 +65,7 @@ Route::group(['middleware' => 'auth'], function() {
 
 
 	//Admin routes
-	Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin.check'], function() {
+Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => 'admin.check'], function() {
 		Route::get('/', AdminController::class)
 			->name('index');
 

@@ -28,10 +28,10 @@ class ParserService implements Contract
 	/**
 	 * @return array
 	 */
-	public function getNews(): array
+	public function saveNews(): void
 	{
 		$xml = Parser::load($this->url);
-		return $xml->parse([
+		$parsed_data =  $xml->parse([
 			'title' => [
 				'uses' => 'channel.title'
 			],
@@ -48,10 +48,7 @@ class ParserService implements Contract
 				'uses' => 'channel.item[title,link,guid,description,pubDate]'
 			]
 		]);
-	}
-
-	public function saveData(array $parsed_data)
-	{
+        
 		$data = [
 			'title' => $parsed_data['title'],
 			'description' =>$parsed_data['description']
@@ -81,10 +78,6 @@ class ParserService implements Contract
 		$news = News::create($data); 
 
 		}
-
-		if ($data) {
-			return redirect()->route('admin.news.index')
-				    ->with('success', __('messages.admin.news.add.success'));
-		}
 	}
+	
 } 

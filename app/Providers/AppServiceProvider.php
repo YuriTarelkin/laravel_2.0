@@ -20,6 +20,7 @@ class AppServiceProvider extends ServiceProvider
     {
       $this->app->bind(Parser::class, ParserService::class);
       $this->app->bind(Social::class, SocialService::class);
+      $this->app->bind(UploadService::class);
     }
 
     /**

@@ -2,7 +2,12 @@
 
 namespace App\Providers;
 
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
+use App\Contracts\Parser;
+use App\Contracts\Social;
+use App\Services\ParserService;
+use App\Services\SocialService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +18,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+      $this->app->bind(Parser::class, ParserService::class);
+      $this->app->bind(Social::class, SocialService::class);
+      $this->app->bind(UploadService::class);
     }
 
     /**
@@ -23,6 +30,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+		Paginator::useBootstrapFive();
     }
 }
